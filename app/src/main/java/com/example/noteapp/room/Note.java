@@ -9,11 +9,11 @@ public class Note {
     private int id;
     private String title;
     private String description;
-    private String priority;
+    private int priority;
 
     //-----------------> constructor <----------------
 
-    public Note(String title, String description, String priority) {
+    public Note(String title, String description, int priority) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -28,6 +28,11 @@ public class Note {
 
     //-----------------> getters <-----------------
 
+
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -36,7 +41,7 @@ public class Note {
         return description;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 }
