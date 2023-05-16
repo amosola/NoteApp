@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    def room_version = "2.5.1"
+    def lifecycle_version = "2.5.1"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
@@ -41,14 +43,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //-----------------> room database <----------------
-    def room_version = "2.5.1"
+
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //-----------------> Lifecycle <----------------
-    def lifecycle_version = "2.6.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
-//    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+//    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 }
