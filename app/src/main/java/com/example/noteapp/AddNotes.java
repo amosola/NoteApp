@@ -10,9 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.noteapp.databinding.ActivityAddNotesBinding;
+import com.example.noteapp.room.Note;
 
 public class AddNotes extends AppCompatActivity {
     ActivityAddNotesBinding binding;
+    private int update_id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,18 @@ public class AddNotes extends AppCompatActivity {
         //----------> Use close icon to close activity <--------------
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.close);
         setTitle("Add Note");
+
+        //-------------> get data from intent <------------
+        Intent intent = getIntent();
+        update_id = intent.getIntExtra("id", 0);
+        String update_title = intent.getStringExtra("title");
+        String update_description = intent.getStringExtra("description");
+        int update_priority = intent.getIntExtra("priority",5);
+        if (update_id > 0){
+            binding.etTitle.setText(update_title);
+            binding.etDescription.setText(update_description);
+            binding.npPriority.setValue(update_priority);
+        }
     }
 
     //-------------> save our notes <---------------
@@ -40,12 +54,24 @@ public class AddNotes extends AppCompatActivity {
             binding.etDescription.setError("Add description");
         }
         if (!title.isEmpty() || !description.isEmpty()){
-            Intent intent = new Intent();
-            intent.putExtra("title", title);
-            intent.putExtra("description", description);
-            intent.putExtra("priority", priority);
-            setResult(RESULT_OK, intent);
-            finish();
+            if (update_id > 0){
+                Intent intent = new Intent();
+                intent.putExtra("job", "update");
+                intent.putExtra("title", title);
+                intent.putExtra("description", description);
+                intent.putExtra("priority", priority);
+                setResult(RESULT_OK, intent);
+                finish();
+            }else {
+                Intent intent = new Intent();
+                intent.putExtra("job", "add");
+                intent.putExtra("title", title);
+                intent.putExtra("description", description);
+                intent.putExtra("priority", priority);
+                setResult(RESULT_OK, intent);
+                finish();
+
+            }
 
         }
     }
@@ -66,6 +92,10 @@ public class AddNotes extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+
+    public void getUpdate(Note note){
 
     }
 }

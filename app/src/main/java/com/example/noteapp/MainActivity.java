@@ -20,7 +20,7 @@ import com.example.noteapp.room.Note;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private NoteViewModel noteViewModel;
+    public static NoteViewModel noteViewModel;
     ActivityMainBinding binding;
     private NoteAdapter adapter;
     Context context;
@@ -60,13 +60,20 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NOTE_REQUEST_CODE && resultCode == RESULT_OK){
+            String job = data.getStringExtra("job");
             String title = data.getStringExtra("title");
             String description = data.getStringExtra("description");
             int priority = data.getIntExtra("priority",5);
 
             Note note = new Note(title,description,priority);
-            noteViewModel.insert(note);
-            Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+            if (job.equals("add")){
+                noteViewModel.insert(note);
+                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+            }else {
+                noteViewModel.update(note);
+                Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
+            }
+
         }else
             Toast.makeText(this, "Note Not Saved", Toast.LENGTH_SHORT).show();
     }

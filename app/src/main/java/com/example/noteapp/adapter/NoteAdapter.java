@@ -1,6 +1,7 @@
 package com.example.noteapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.noteapp.AddNotes;
+import com.example.noteapp.MainActivity;
+import com.example.noteapp.NoteViewModel;
 import com.example.noteapp.R;
 import com.example.noteapp.room.Note;
 
@@ -20,6 +24,8 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     Context context;
     List<Note> noteList = new ArrayList<>();
+    private NoteViewModel noteViewModel;
+    private AddNotes addNotes;
 
     public NoteAdapter(Context context, List<Note> noteList) {
         this.context = context;
@@ -45,6 +51,20 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         holder.description.setText(String.valueOf(note.getDescription()));
         //-----------------> onClick Listener goes here <-----------------
 
+        holder.delete.setOnClickListener(view -> {
+            MainActivity.noteViewModel.delete(note);
+//            noteViewModel.delete(note);
+        });
+
+        holder.edit.setOnClickListener(view -> {
+//            addNotes.getUpdate(note);
+            Intent intent = new Intent(context, AddNotes.class);
+            intent.putExtra("id", note.getId());
+            intent.putExtra("title", note.getTitle());
+            intent.putExtra("description", note.getDescription());
+            intent.putExtra("priority", note.getPriority());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -66,7 +86,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             description = itemView.findViewById(R.id.tvDescription);
             noteCardView = itemView.findViewById(R.id.cvNotes);
             edit = itemView.findViewById(R.id.imgEdit);
-            edit = itemView.findViewById(R.id.imgDelete);
+            delete = itemView.findViewById(R.id.imgDelete);
         }
 
 
